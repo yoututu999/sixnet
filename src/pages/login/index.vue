@@ -1,6 +1,6 @@
 <template>
   <view class="content">
-    <image class="logo" src="/static/logo.png"></image>
+    <view class="bg bg-blur"></view>
     <view class="text-area">
       <text class="title">{{ 11 }}</text>
     </view>
@@ -17,16 +17,29 @@
 import { authInfo } from '@/services/login.js'
 
 authInfo({
-  value: 9
+    value: 9
 }).then(res => {
-  console.log(res)
+    console.log(res)
 })
 </script>
 
-<style>
+<style lang="scss">
 .content {
 }
-
+.bg {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: url('http://114.115.171.22/taihe/img/timg.jpg') no-repeat center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  -webkit-filter: blur(10px);
+  -moz-filter: blur(10px);
+  -ms-filter: blur(10px);
+  filter: blur(10px);
+}
 .logo {
   height: 200rpx;
   width: 200rpx;
