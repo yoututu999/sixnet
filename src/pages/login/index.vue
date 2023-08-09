@@ -2,19 +2,36 @@
   <view class="content">
     <view class="bg bg-blur"></view>
     <view class="login-title">
-      <text >{{ company.title }}</text>
+      <text>{{ company.title }}</text>
     </view>
-    
+
     <!--#ifdef H5-->
     <van-form @submit="onSubmit">
       <van-cell-group inset>
-        <van-field v-model="dataForm.login" name="login" label="账号" placeholder="请输入登录用户名"
-          :rules="[{ required: true, message: '请填写用户名' }]" />
-        <van-field v-model="dataForm.pwd" type="pwd" name="密码" label="密码" placeholder="密码"
-          :rules="[{ required: true, message: '请填写密码' }]" />
+        <van-field
+          v-model="dataForm.login"
+          name="login"
+          label="账号"
+          placeholder="请输入登录用户名"
+          :rules="[{ required: true, message: '请填写用户名' }]"
+        />
+        <van-field
+          v-model="dataForm.pwd"
+          type="pwd"
+          name="密码"
+          label="密码"
+          placeholder="密码"
+          :rules="[{ required: true, message: '请填写密码' }]"
+        />
       </van-cell-group>
       <div class="block-button">
-        <van-button round block type="primary" native-type="submit">
+        <van-button
+          color="#174f88"
+          round
+          block
+          type="primary"
+          native-type="submit"
+        >
           提交
         </van-button>
       </div>
@@ -28,13 +45,13 @@
 </template>
 
 <script setup>
-import { authInfo,authLogin } from '@/services/login.js'
-import { reactive } from 'vue';
-import { Toast } from 'vant';
+import { authInfo, authLogin } from '@/services/login.js'
+import { reactive } from 'vue'
+import { Toast } from 'vant'
 
 const company = reactive({
   title: '',
-  companyid:9
+  companyid: 9
 })
 const dataForm = reactive({})
 
@@ -44,31 +61,35 @@ authInfo({
   console.log(res)
   if (!res.data) return
   company.title = res.data.Title
+  uni.setStorageSync('avar', res.data.LogoUrl)
 })
 
-const onSubmit = (values) => {
-      console.log('submit', values);
-      authLogin({
-        ...dataForm,
-        companyid: company.companyid,
-        code:''
-      }).then(res => {
-        Toast(res.data.msg)
+const onSubmit = values => {
+  console.log('submit', values)
+  authLogin({
+    ...dataForm,
+    companyid: company.companyid,
+    code: ''
+  }).then(res => {
+    Toast(res.msg)
 
-      })
-    };
+    uni.switchTab({ url: '/pages/home/index' })
+  })
+}
 </script>
 
 <style lang="scss" scoped>
-.content{
+.content {
   height: 100vh;
-  padding:0 $uni-spacing-row-lg;
+  padding: 0 $uni-spacing-row-lg;
 }
 .login-title {
   text-align: center;
   font-weight: 500;
   font-size: 24px;
   padding: 100px 0 80px;
+  z-index: 2;
+  position: relative;
 }
 
 .bg {
@@ -80,19 +101,19 @@ const onSubmit = (values) => {
   background: url('../../static/imgs/bg.png') no-repeat center;
   background-size: 100% 100%;
   background-repeat: no-repeat;
-  -webkit-filter: blur(10px);
-  -moz-filter: blur(10px);
-  -ms-filter: blur(10px);
-  filter: blur(10px);
-  z-index: -1;
+  -webkit-filter: blur(3px);
+  -moz-filter: blur(3px);
+  -ms-filter: blur(3px);
+  filter: blur(3px);
+  z-index: 0;
 }
-.footer{
+.footer {
   position: absolute;
   bottom: 20px;
   display: block;
   width: 100%;
   text-align: center;
   color: #787878;
-  font-size:$uni-font-size-sm;
+  font-size: $uni-font-size-sm;
 }
 </style>

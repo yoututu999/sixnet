@@ -29,7 +29,19 @@ export default defineConfig({
     //  //#endif
   ],
   server: {
-    port: '3002'
+    port: '3002',
+    proxy: {
+      '/api': {
+        target: 'http://114.115.171.22',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/api/, '')
+      }
+      // '/api2': {
+      //   target: process.env.VITE_BASE_URL,
+      //   changeOrigin: true,
+      //   rewrite: path => path.replace(/^\/api/, '')
+      // }
+    }
   },
   define: {
     'process.env': {

@@ -1,5 +1,6 @@
 import { createSSRApp } from 'vue'
 import App from './App.vue'
+
 //#ifdef H5
 import vant from 'vant'
 import 'vant/lib/index.css'

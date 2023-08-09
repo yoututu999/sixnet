@@ -7,5 +7,13 @@ export async function authInfo (param) {
 // 登录
 export async function authLogin (param) {
   // return request('/api/companyuser_login', 'POST', param)
-  return request.get('/api/companyuser_login', param)
+  return request.post('/api/companyuser_login', param)
+}
+// 检验是否登录
+export async function isLogin (param) {
+  return request.get('/api/companyuser_islogin', param)
+}
+// 获取用户信息
+export async function getUserInfo () {
+  return request.get('/api/CompanyUser_MyInfo')
 }

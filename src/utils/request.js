@@ -7,9 +7,12 @@ import mpAdapter from 'axios-miniprogram-adapter'
 axios.defaults.adapter = mpAdapter
 
 //根据环境变量获取api地址
-let baseURL = process.env.config[process.env.UNI_SCRIPT].VITE_BASE_API
+let baseURL =
+  process.env.NODE_ENV == 'development'
+    ? '/api'
+    : JSON.parse(process.env.VITE_BASE_URL)
 // let evnName = process.env.config[process.env.UNI_SCRIPT] 获取当前处于哪个开发环境
-console.log('baseURL:', baseURL, '++++++++++++++++++++++++')
+console.log('baseURL:', process.env, '++++++++++++++++++++++++')
 
 class HttpRequest {
   constructor () {
@@ -81,24 +84,27 @@ class HttpRequest {
         let { data } = res
         // console.log("请求获取data", data)
         if (data) {
-          if (data.code === 200) {
+          if (data.code === 0) {
             //console.log('data=============', data)
             return Promise.resolve(data)
-          } else {
+          } else if (data.code === 201 || data.code == 301) {
+            // 未登录、登录超时
             uni.showToast({
-              title: '111'
+              title: data.msg,
+              icon: 'none'
             })
-            // showConfirm({
-            //   content: data.msg,
-            //   showCancel: false
-            // }).then(res => {
-            //   /*               if (res.confirm) {
-            //     store.dispatch("LogOut").then((res) => {
-            //       uni.reLaunch({ url: "/pages/login" });
-            //     });
-            //   } */
-            // })
-            return Promise.resolve(data)
+            const pages = getCurrentPages() // 获取栈实例
+            if (pages.length > 0) {
+              let currentPage = pages[pages.length - 1]['$page']['fullPath']
+              uni.setStorage({
+                key: 'def_url',
+                data: currentPage,
+                success: () => {
+                  uni.reLaunch({ url: '/pages/login/index' })
+                }
+              })
+            } else uni.reLaunch({ url: '/pages/login/index' })
+            // return Promise.resolve(data)
           }
         }
       },

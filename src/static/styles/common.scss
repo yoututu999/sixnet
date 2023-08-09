@@ -1,7 +1,23 @@
+#app{
+  background: #f8f8f8;
+}
 .van-field__control{
     font-size: $uni-font-size-base;
 }
 .block-button{
     margin: 16px;
     margin-top: 40px;
+    text-align: center;
+}
+.flex{
+  display: flex;
+}
+.mgr-sm{
+  margin-right: $uni-spacing-row-sm;
+}
+.mgr-base{
+  margin-right: $uni-spacing-row-base;
+}
+.mgb-lg{
+  margin-bottom: $uni-spacing-col-lg;
 }
