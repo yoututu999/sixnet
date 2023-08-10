@@ -1,0 +1,45 @@
+@font-face {
+  font-family: "sixnet"; /* Project id 4204275 */
+  /* Color fonts */
+  src: 
+       url('iconfont.woff2?t=1691650788774') format('woff2'),
+       url('iconfont.woff?t=1691650788774') format('woff'),
+       url('iconfont.ttf?t=1691650788774') format('truetype');
+}
+
+.sixnet {
+  font-family: "sixnet" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.sixnet-tongji:before {
+  content: "\e82d";
+}
+
+.sixnet-shujutongji:before {
+  content: "\e624";
+}
+
+.sixnet-ziyuan:before {
+  content: "\e7cd";
+}
+
+.sixnet-tongji1:before {
+  content: "\ecb3";
+}
+
+.sixnet-tongjitu:before {
+  content: "\e60a";
+}
+
+.sixnet-quxiantu:before {
+  content: "\e600";
+}
+
+.sixnet-zhexiantu:before {
+  content: "\e601";
+}
+

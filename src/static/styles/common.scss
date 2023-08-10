@@ -1,6 +1,7 @@
-#app{
+#app,page{
   background: #f8f8f8;
 }
+page
 .van-field__control{
     font-size: $uni-font-size-base;
 }
@@ -20,4 +21,30 @@
 }
 .mgb-lg{
   margin-bottom: $uni-spacing-col-lg;
+}
+.van-safe-area-bottom-mgb{
+  margin-bottom: 60px;
+}
+.notice-item{
+  position: relative;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    width: 100%;
+    padding: var(--van-cell-vertical-padding) var(--van-cell-horizontal-padding);
+    overflow: hidden;
+    color: var(--van-cell-text-color);
+    font-size: var(--van-cell-font-size);
+    line-height: var(--van-cell-line-height);
+    background: var(--van-cell-background-color);
+    .pgdn{
+      color: $uni-text-color-grey;
+    }
+    .pgup{
+      
+    }
+    .center{
+      margin: $uni-spacing-col-sm 0;
+      font-size: $uni-font-size-sm;
+    }
 }
