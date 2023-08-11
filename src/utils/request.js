@@ -34,13 +34,12 @@ class HttpRequest {
   }
   get (url, data = {}, outHeaders = {}) {
     // console.log(data, "data+++++++++++++");
-
     return this.request({
       dataType: 'json',
       method: 'get',
       url,
       params: { ...data }, // get参数可以直接展开
-      headers: {}
+      headers: outHeaders
     })
   }
   post (url, data = {}, outHeaders = {}) {
@@ -49,7 +48,7 @@ class HttpRequest {
       method: 'post',
       url,
       data, // post要求必须传入data属性
-      headers: {}
+      headers: outHeaders
     })
   }
 
@@ -61,7 +60,7 @@ class HttpRequest {
       // 是否需要设置 token
       const isToken = config.headers['ISTOKEN'] || false
       if (getToken() && isToken) {
-        config.header['Cookie'] = `${getToken()}`
+        config.headers['Cookie'] = `${getToken()}`
       }
       if (!noLoading) {
         uni.showLoading({
@@ -79,7 +78,7 @@ class HttpRequest {
       res => {
         const noLoading = res.config.headers['NO-LOADING']
         if (!noLoading) {
-          uni.hideLoading()
+          setTimeout(() => uni.hideLoading(), 500)
         }
         let { data } = res
         // console.log("请求获取data", data)

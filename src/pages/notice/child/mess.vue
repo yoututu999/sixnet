@@ -92,7 +92,20 @@ export default {
       this.list = []
 
       this.$refs.vanList.check()
+    },
+    goPage (data) {
+      console.log(data)
     }
   }
 }
 </script>
+<style scoped>
+.center {
+  word-break: break-all;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+</style>
