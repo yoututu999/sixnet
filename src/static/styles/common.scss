@@ -40,10 +40,33 @@ page
     .pgdn{
       color: $uni-text-color-grey;
     }
-    .pgup{
-      
-    }
     .center{
       margin: $uni-spacing-col-sm 0;
     }
+}
+.main-box{
+  margin: 16px;
+  padding: 10px;
+  border-radius: 15px;
+  background-color: #fff;
+  .main-box-title{
+    justify-content: space-between;
+    align-items: center;
+   &> text{
+      color: rgb(148, 191, 241);
+      font-weight: 600;
+      font-size: 16px;
+    }
+    .params{
+      color: #999;
+      font-size: 13px;
+      >text{margin: 0 5px;}
+      
+    }
+  }
+  .main-box-cont{
+    
+
+    padding: 20px 10px 0;
+  }
 }

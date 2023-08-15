@@ -30,3 +30,6 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 -----.env[].js 环境变量
 -----pages.json  页面参数配置
 -----uni.scss  全局css定义
+
+### 可视化组件使用echarts
+

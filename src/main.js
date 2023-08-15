@@ -7,11 +7,11 @@ import vant from 'vant'
 import 'vant/lib/index.css'
 // #endif
 export function createApp () {
-    const app = createSSRApp(App)
-    //#ifdef H5
-    app.use(vant)
-    // #endif
-    return {
-        app
-    }
+  const app = createSSRApp(App)
+  //#ifdef H5
+  app.use(vant)
+  // #endif
+  return {
+    app
+  }
 }
