@@ -15,6 +15,7 @@
       <view class="main-box-cont">
         <swiper
           class="swiper"
+          :current="swiperCur"
           circular
           :indicator-dots="indicatorDots"
           :autoplay="autoplay"
@@ -22,7 +23,7 @@
         >
           <swiper-item>
             <view>
-              <v-bar
+              <!-- <v-bar
                 :styles="{ width: '100%', height: '200px' }"
                 :series-data="StatisticsManagementArea.data"
                 :xaxis-data="StatisticsManagementArea.xdata"
@@ -42,6 +43,47 @@
                     }
                   }
                 }"
+              /> -->
+              <v-gauge
+                :styles="{ width: '100%', height: '200px' }"
+                :extraOption="{
+                  series: [
+                    {
+                      min: 0,
+                      max: 10000,
+                      splitNumber: 5,
+                      axisTick: { distance: -15 },
+                      splitLine: {
+                        distance: -17
+                      },
+                      axisLine: {
+                        lineStyle: {
+                          color: [
+                            [0.6, '#FF6E76'],
+                            [1, '#58D9F9']
+                          ]
+                        }
+                      },
+                      axisLabel: {
+                        distance: -25,
+                        color: '#999'
+                      },
+                      pointer: {
+                        offsetCenter: [0, '-70%'],
+                        width: 10
+                      },
+
+                      title: {}
+                    }
+                  ]
+                }"
+                :series-data="[
+                  {
+                    value: 6789,
+                    number: 6456,
+                    name: '产水总量'
+                  }
+                ]"
               />
             </view>
           </swiper-item>
@@ -69,26 +111,42 @@
 <script>
 import VBar from '@/components/charts/bar'
 import VPie from '@/components/charts/pie'
+import VGauge from '@/components/charts/gauge'
+import dayjs from 'dayjs'
+import { getTagsHistorical } from '@/services/statistics'
 
 export default {
-  components: { VBar, VPie },
+  components: { VBar, VPie, VGauge },
   data () {
     return {
       indicatorDots: true,
       autoplay: false,
+      swiperCur: 0,
       overviewParams: [
-        { text: '昨日', beginTime: '' },
-        { text: '本月', beginTime: '' },
-        { text: '实时', beginTime: '' }
+        {
+          text: '昨日',
+          beginTime: dayjs().subtract(1, 'day').format('YYYY-MM-DD') + ' 00:00',
+          interval: 3600 * 24
+        },
+        {
+          text: '本月',
+          beginTime: dayjs().startOf('month').format('YYYY-MM-DD') + ' 00:00',
+          interval: 3600 * 24 * dayjs().date()
+        },
+        { text: '实时' }
       ],
       overviewQuery: {
-        type: 0
+        type: 0,
+        BeginTime: dayjs().subtract(1, 'day').format('YYYY-MM-DD') + ' 00:00',
+        Quantity: 2,
+        Interval: 3600 * 24
       },
       StatisticsManagementArea: { data: [], xdata: [] },
       StatisticsRoomTypeQuantity: []
     }
   },
   onLoad () {
+    console.log(dayjs().subtract(1, 'day'))
     this.StatisticsManagementArea = {
       data: [
         {
@@ -108,12 +166,30 @@ export default {
       { name: '23', value: 222 },
       { name: '252', value: 66 }
     ]
+    this.getGaugeTags()
   },
   methods: {
     onChangeType (index, data) {
       if (index == this.overviewQuery.type) return
       this.overviewQuery.type = index
-      this.overviewQuery.beginTime = data.beginTime
+      this.overviewQuery.BeginTime = data.beginTime
+      this.overviewQuery.Interval = data.interval
+      this.getGaugeTags()
+    },
+    getGaugeTags () {
+      return new Promise((resolve, reject) => {
+        getTagsHistorical({
+          TagIDs: [
+            672, 689, 706, 723, 740, 757, 774, 791, 808, 825, 842, 859, 876,
+            910, 927, 944, 961, 978, 995, 1012, 1029, 1046, 1063, 1081, 1160
+          ],
+          ...this.overviewQuery
+        }).then(res => {
+          if (!res.table) reject
+          // console.log(res.table)
+          resolve(res.table)
+        })
+      })
     }
   }
 }

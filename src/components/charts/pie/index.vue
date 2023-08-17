@@ -1,6 +1,6 @@
 <template>
   <div class="echart-pie-wrap">
-    <a-empty
+    <van-empty
       v-show="isSeriesEmpty"
       :image-style="{
         height: styles.imgHeight || '40px'

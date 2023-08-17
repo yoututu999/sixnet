@@ -29,13 +29,7 @@ export default {
       required: true,
       default: () => []
     },
-    xaxisData: {
-      type: Array,
-      required: true,
-      default: () => []
-    },
     // 表示需要特殊定制的配置
-    // 一般UI会规定一个统一的设计规范（比如颜色，字体，图例格式，位置等）
     // 但不排除某个图标会和设计规范不同，需要特殊定制样式，所以开放这个配置，增强灵活性
     extraOption: {
       type: Object,
@@ -55,8 +49,7 @@ export default {
     // 针对饼图数据是不是无效的判断
     isSeriesEmpty () {
       return (
-        isEmpty(this.seriesData) ||
-        this.seriesData.every(item => !item.data || item.data == false)
+        isEmpty(this.seriesData) || this.seriesData.every(item => !item.value)
       )
     }
   },
@@ -79,7 +72,6 @@ export default {
     }
   },
   mounted () {
-    debugger
     window.addEventListener('resize', this.handleWindowResize)
     setTimeout(() => {
       this.chart = echarts.init(this.$refs.chart)
@@ -99,14 +91,13 @@ export default {
       let newData = this.seriesData.map(v => ({
         ...basicOption.series[0],
         ...this.extraOption.series[0], //自定义的属性
-        ...v
+        data: this.seriesData
       }))
 
       return merge(
         {},
         basicOption,
         {
-          xAxis: [{ data: this.xaxisData }],
           series: [...newData]
         },
         this.extraOption
@@ -118,7 +109,7 @@ export default {
     updateChartView () {
       if (!this.chart) return
       const fullOption = this.assembleDataToOption()
-      //console.log(fullOption)
+      console.log(fullOption)
       this.chart.clear()
       //setTimeout(() => {
       this.chart.setOption(fullOption, true)

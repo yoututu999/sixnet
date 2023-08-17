@@ -81,10 +81,9 @@ class HttpRequest {
           setTimeout(() => uni.hideLoading(), 500)
         }
         let { data } = res
-        // console.log("请求获取data", data)
+        // console.log('请求获取data', res)
         if (data) {
-          if (data.code === 0) {
-            //console.log('data=============', data)
+          if (data.code === 0 || res.status == 200) {
             return Promise.resolve(data)
           } else if (data.code === 201 || data.code == 301) {
             // 未登录、登录超时
